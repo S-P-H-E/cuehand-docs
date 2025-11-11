@@ -1,0 +1,27 @@
+---
+title: "Act"
+description: "Interact with a web page"
+---
+
+## What is `act()`?
+```typescript
+await cuehand.act("click on add to cart")
+```
+
+<Tabs>
+  <Tab title="Do This" icon="check">
+    Break your task into single step actions.
+
+    ```typescript
+    await cuehand.act("click on add to cart")
+    await cuehand.act("click on checkout")
+    ```
+  </Tab>
+  <Tab title="Don't Do This" icon="xmark">
+    Don't try to do everything in one step.
+
+    ```typescript
+    await cuehand.act("click on add to cart and checkout")
+    ```
+  </Tab>
+</Tabs>

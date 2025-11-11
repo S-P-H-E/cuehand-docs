@@ -1,0 +1,64 @@
+---
+title: "Dockerizing Cuehand"
+description: "Dockerizing Cuehand projects for production deployment."
+sidebarTitle: "Docker"
+---
+
+This section covers how to dockerize Cuehand projects for production deployment.
+This is useful for deploying Cuehand projects on platforms like **Railway**.
+
+```text .dockerignore
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env*
+.DS_Store
+*.log
+```
+
+```yml docker-compose.yml
+services:
+  cuehand:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      - GOOGLE_GENERATIVE_AI_API_KEY
+```
+
+```dockerfile Dockerfile
+FROM node:20-slim
+
+# Install Chrome dependencies for Puppeteer
+RUN apt-get update && apt-get install -y \
+    chromium \
+    chromium-sandbox \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Puppeteer to use system Chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Run the application
+CMD ["npm", "start"]
+```
+
+Run the container.
+```bash 
+docker-compose up --build
+```
+
+I keep mentioning [Railway](https://railway.com), but you can use any platform that supports Docker.

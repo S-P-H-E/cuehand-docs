@@ -6,31 +6,41 @@ description: "Cuehand allows you to build web automations with natural language 
 Let's get you up and running with Cuehand in 60 seconds.
 It is important to note that Cuehand uses **Typescript**, the **Vercel AI SDK**, **Puppeteer** and **Zod**.
 
-{/* <Info>This draws attention to important information</Info> */}
-## 0. Prerequisites
+## Prerequisites
 If you don't have a project directory, create one and navigate into it.
 ```bash
-mkdir my-project
-cd my-project
+mkdir cuehand-project
+cd cuehand-project
 ```
 
 ## 1. Create a sample project
+Here we use the Cuehand CLI to create a sample project. For this guide just press `Enter` on your keyboard 
+for all options to accept the defaults. If you want to learn more about the CLI, see the [CLI](/resources/cli) page.
 ```bash
 npx create-cuehand .
 ```
 
-## 2. Run it
-Follow the CLI prompts to enter the project directory and add your API keys. 
-Then run the example script.
+## 2. Add your API keys
+Follow the CLI prompts and wait for dependencies to be installed. Then copy the `.env.example` file to `.env` to add your API keys.
 ```bash
 cp .env.example .env
-npm start
 ```
-<Warning>Remember to replace the API keys in the .env file with your own.</Warning>
+`.env.example` contains the following API key:
+```env .env
+GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
+```
+
+<Danger>
+    Remember to replace the API keys in the `.env` file with your own.
+    The project will not work without a valid API key.
+</Danger>
+
+You can get your own API key from the [Google AI Studio](https://aistudio.google.com/api-keys).
+Once you have your API key and added it to the `.env` file, delete the `.env.example` file.
 
 ## 3. Use Cuehand (act, extract, observe)
 The scaffold includes an index.ts file that contains the example script. Here's what it looks like:
-```typescript index.ts
+```typescript index.ts expandable lines wrap
 import { Cuehand } from "cuehand";
 
 async function main() {
@@ -45,6 +55,8 @@ async function main() {
 
     await cuehand.wait(3);
 
+    console.log("Extracting subjects...");
+
     const result = await cuehand.extract(`
         Extract a list of Grade 12 subjects. 
         Each subject should have a name and a link to its page. 
@@ -57,7 +69,7 @@ async function main() {
         });
     );
 
-    console.log(result);
+    console.log("Result:", result);
 
     await cuehand.close();
 }
@@ -66,5 +78,12 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
 ```
+
+## 4. Finally, run it
+Run the project using the following command:
+```bash
+npm start
+```
+
+That's it! You have successfully created and run your first Cuehand project. 🎉

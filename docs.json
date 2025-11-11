@@ -16,6 +16,26 @@
           "index",
           "first-steps/quickstart"
         ]
+      },
+      {
+        "group": "The Basics",
+        "pages": [
+          "the-basics/act",
+          "the-basics/extract",
+          "the-basics/observe"
+        ]
+      },
+      {
+        "group": "Deployment",
+        "pages": [
+          "deployment/docker"
+        ]
+      },
+      {
+        "group": "Resources",
+        "pages": [
+          "resources/cli"
+        ]
       }
     ],
     "global": {
@@ -27,6 +47,10 @@
         }
       ]
     }
+  },
+  "banner": {
+    "content": "⚠️ Cuehand is currently in beta. Some features may not work as expected.",
+    "dismissible": true
   },
   "logo": {
     "light": "/logo/light.svg",
