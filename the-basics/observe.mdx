@@ -21,13 +21,13 @@ const result = await cuehand.observe("find the login button");
 
 if (result.found) {
     await cuehand.act("type %username% into the email field", {
-  variables: { username: "username" }
-});
+    variables: { username: "username" }
+  });
 
-await cuehand.act("type %password% into the password field", {
-  variables: { password: process.env.USER_PASSWORD }
-});
+  await cuehand.act("type %password% into the password field", {
+    variables: { password: process.env.USER_PASSWORD! }
+  });
 
-await stagehand.act("click the login button");
+  await cuehand.act("click the login button");
 };
 ```
