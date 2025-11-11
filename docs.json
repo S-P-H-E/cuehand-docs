@@ -42,15 +42,11 @@
       "anchors": [
         {
           "anchor": "Changelog",
-          "href": "https://github.com/S-P-H-E/cuehand/releases",
+          "href": "https://eightytwostudio.mintlify.app/changelog",
           "icon": "scroll"
         }
       ]
     }
-  },
-  "banner": {
-    "content": "⚠️ Cuehand is currently in beta. Some features may not work as expected.",
-    "dismissible": true
   },
   "logo": {
     "light": "/logo/light.svg",

@@ -11,10 +11,38 @@ Create a new Cuehand project in the current directory.
 npx create-cuehand .
 ```
 
+## Options and Prompts
 The CLI will prompt you for the following information:
-```text
+```text Terminal icon="terminal"
 ? Do you want to create a new project or add to an existing one?
 (Use arrow keys)
 ❯ New project
   Add to Existing
+```
+
+After selecting **New Project**, the CLI will ask you to select a project type:
+```text Terminal icon="terminal"
+? Select project type:
+❯ Local
+  Docker
+```
+- **Local** - sets up a simple project that runs directly on your machine.
+
+- **Docker** - includes a Dockerfile and docker-compose.yml for containerized deployment.
+
+If you select **Add to Existing**, the CLI will ask you to select a project:
+```text Terminal icon="terminal"
+? Select what to add to the existing project::
+❯ Cuehand
+  Cuehand + Docker
+```
+
+## Flags
+| Flaf | Description |
+| -------- | ------------------------------------- |
+| `--yes`     | Skips all prompts and uses cached values from your last run. |
+
+Example:
+```bash
+npx create-cuehand . --yes
 ```
