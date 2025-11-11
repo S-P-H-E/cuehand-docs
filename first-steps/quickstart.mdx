@@ -1,0 +1,70 @@
+---
+title: "Quickstart"
+description: "Cuehand allows you to build web automations with natural language and code."
+---
+
+Let's get you up and running with Cuehand in 60 seconds.
+It is important to note that Cuehand uses **Typescript**, the **Vercel AI SDK**, **Puppeteer** and **Zod**.
+
+{/* <Info>This draws attention to important information</Info> */}
+## 0. Prerequisites
+If you don't have a project directory, create one and navigate into it.
+```bash
+mkdir my-project
+cd my-project
+```
+
+## 1. Create a sample project
+```bash
+npx create-cuehand .
+```
+
+## 2. Run it
+Follow the CLI prompts to enter the project directory and add your API keys. 
+Then run the example script.
+```bash
+cp .env.example .env
+npm start
+```
+<Warning>Remember to replace the API keys in the .env file with your own.</Warning>
+
+## 3. Use Cuehand (act, extract, observe)
+The scaffold includes an index.ts file that contains the example script. Here's what it looks like:
+```typescript index.ts
+import { Cuehand } from "cuehand";
+
+async function main() {
+    const cuehand = new Cuehand({
+        type: "LOCAL",
+        model: google("gemini-2.5-flash"),
+    });
+
+    await cuehand.init();
+
+    await cuehand.goto("https://www.testpapers.co.za/gr12-subjects");
+
+    await cuehand.wait(3);
+
+    const result = await cuehand.extract(`
+        Extract a list of Grade 12 subjects. 
+        Each subject should have a name and a link to its page. 
+        Subject Example: Business Studies.
+        `,z.object({
+            subjects: z.array(z.object({
+                name: z.string(),
+                link: z.string()
+            }))
+        });
+    );
+
+    console.log(result);
+
+    await cuehand.close();
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+
+```
