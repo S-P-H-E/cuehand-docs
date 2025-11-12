@@ -20,7 +20,7 @@ You can use `observe()` with `act()` like this:
 const result = await cuehand.observe("find the login button");
 
 if (result.found) {
-    await cuehand.act("type %username% into the email field", {
+  await cuehand.act("type %username% into the email field", {
     variables: { username: "username" }
   });
 
