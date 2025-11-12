@@ -7,58 +7,68 @@ sidebarTitle: "Docker"
 This section covers how to dockerize Cuehand projects for production deployment.
 This is useful for deploying Cuehand projects on platforms like **Railway**.
 
-```text .dockerignore
-node_modules
-npm-debug.log
-.git
-.gitignore
-.env*
-.DS_Store
-*.log
-```
+<Steps>
+  <Step title="Create a Dockerfile">
+    Create a Dockerfile in the root of your project.
+    ```dockerfile Dockerfile expandable
+    FROM node:20-slim
 
-```yml docker-compose.yml
-services:
-  cuehand:
-    build:
-      context: .
-    env_file:
-      - .env
-    environment:
-      - GOOGLE_GENERATIVE_AI_API_KEY
-```
+    # Install Chrome dependencies for Puppeteer
+    RUN apt-get update && apt-get install -y \
+        chromium \
+        chromium-sandbox \
+        && rm -rf /var/lib/apt/lists/*
 
-```dockerfile Dockerfile
-FROM node:20-slim
+    # Set Puppeteer to use system Chromium
+    ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
-# Install Chrome dependencies for Puppeteer
-RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-sandbox \
-    && rm -rf /var/lib/apt/lists/*
+    WORKDIR /app
 
-# Set Puppeteer to use system Chromium
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    # Copy package files
+    COPY package*.json ./
 
-WORKDIR /app
+    # Install dependencies
+    RUN npm ci
 
-# Copy package files
-COPY package*.json ./
+    # Copy source code
+    COPY . .
 
-# Install dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Run the application
-CMD ["npm", "start"]
-```
-
-Run the container.
-```bash 
-docker-compose up --build
-```
+    # Run the application
+    CMD ["npm", "start"]
+    ```
+  </Step>
+  <Step title="Create a .dockerignore file">
+    Create a .dockerignore file in the root of your project.
+    ```dockerignore .dockerignore
+    node_modules
+    npm-debug.log
+    .git
+    .gitignore
+    .env*
+    .DS_Store
+    *.log
+    ```
+  </Step>
+  <Step title="Create a docker-compose.yml file">
+    Create a docker-compose.yml file in the root of your project.
+    ```yml docker-compose.yml
+    services:
+      cuehand:
+        build:
+          context: .
+        env_file:
+          - .env
+        environment:
+          - GOOGLE_GENERATIVE_AI_API_KEY
+    ```
+  </Step>
+  <Step title="Build and run the container">
+    Build and run the container.
+    ```bash
+    docker-compose up --build
+    ```
+  </Step>
+</Steps>
 
 I keep mentioning [Railway](https://railway.com), but you can use any platform that supports Docker.

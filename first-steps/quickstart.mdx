@@ -4,86 +4,76 @@ description: "Cuehand allows you to build web automations with natural language 
 ---
 
 Let's get you up and running with Cuehand in 60 seconds.
-It is important to note that Cuehand uses **Typescript**, the **Vercel AI SDK**, **Puppeteer** and **Zod**.
+It is important to note that Cuehand uses **Gemini** as the default model for AI interactions. 
+You can use any other model supported by the [Vercel AI SDK](https://ai-sdk.dev/docs/introduction).
 
-## Prerequisites
-If you don't have a project directory, create one and navigate into it.
-```bash
-mkdir cuehand-project
-cd cuehand-project
-```
+<Steps>
+  <Step title="Create a sample project">
+    Here we use the Cuehand CLI to create a sample project. For this guide just press `Enter` on your keyboard 
+    for all options to accept the defaults. If you want to learn more about the CLI, see the [CLI](/more-information/cli) page.
+    ```bash
+    npx create-cuehand .
+    ```
+  </Step>
+  <Step title="Add your API key">
+    1. Navigate to the [Google AI Studio](https://aistudio.google.com/api-keys).
+    2. Copy your API key.
+    3. Paste your Google AI API key into your `.env` file.
 
-## 1. Create a sample project
-Here we use the Cuehand CLI to create a sample project. For this guide just press `Enter` on your keyboard 
-for all options to accept the defaults. If you want to learn more about the CLI, see the [CLI](/resources/cli) page.
-```bash
-npx create-cuehand .
-```
+    ```bash .env
+    GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
+    ```
+  </Step>
+  <Step title="Use Cuehand (act, extract, observe)">
+    The scaffold includes an index.ts file that contains basic Cuehand code. Here's what it looks like:
+    ```typescript index.ts expandable lines wrap
+    import { Cuehand } from "cuehand";
 
-## 2. Add your API keys
-Follow the CLI prompts and wait for dependencies to be installed. Then copy the `.env.example` file to `.env` to add your API keys.
-```bash
-cp .env.example .env
-```
-`.env.example` contains the following API key:
-```env .env
-GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
-```
-
-<Danger>
-    Remember to replace the API keys in the `.env` file with your own.
-    The project will not work without a valid API key.
-</Danger>
-
-You can get your own API key from the [Google AI Studio](https://aistudio.google.com/api-keys).
-Once you have your API key and added it to the `.env` file, delete the `.env.example` file.
-
-## 3. Use Cuehand (act, extract, observe)
-The scaffold includes an index.ts file that contains the example script. Here's what it looks like:
-```typescript index.ts expandable lines wrap
-import { Cuehand } from "cuehand";
-
-async function main() {
-    const cuehand = new Cuehand({
-        type: "LOCAL",
-        model: google("gemini-2.5-flash"),
-    });
-
-    await cuehand.init();
-
-    await cuehand.goto("https://www.testpapers.co.za/gr12-subjects");
-
-    await cuehand.wait(3);
-
-    console.log("Extracting subjects...");
-
-    const result = await cuehand.extract(`
-        Extract a list of Grade 12 subjects. 
-        Each subject should have a name and a link to its page. 
-        Subject Example: Business Studies.
-        `,z.object({
-            subjects: z.array(z.object({
-                name: z.string(),
-                link: z.string()
-            }))
+    async function main() {
+        const cuehand = new Cuehand({
+            type: "LOCAL",
+            model: google("gemini-2.5-flash"),
         });
-    );
 
-    console.log("Result:", result);
+        await cuehand.init();
 
-    await cuehand.close();
-}
+        await cuehand.goto(
+           "https://www.testpapers.co.za/gr12-subjects"
+        );
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
-```
+        await cuehand.wait(3);
 
-## 4. Finally, run it
-Run the project using the following command:
-```bash
-npm start
-```
+        console.log("Extracting subjects...");
+
+        const result = await cuehand.extract(`
+            Extract a list of Grade 12 subjects. 
+            Each subject should have a name and a link to its page. 
+            Subject Example: Business Studies.
+            `,z.object({
+                subjects: z.array(z.object({
+                    name: z.string(),
+                    link: z.string()
+                }))
+            });
+        );
+
+        console.log("Result:", result);
+
+        await cuehand.close();
+    }
+
+    main().catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
+    ```
+  </Step>
+  <Step title="Finally, run it">
+    Run the project using the following command:
+    ```bash
+    npm start
+    ```
+  </Step>
+</Steps>
 
 That's it! You have successfully created and run your first Cuehand project. 🎉
