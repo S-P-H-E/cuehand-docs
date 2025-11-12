@@ -3,9 +3,16 @@
   "theme": "maple",
   "name": "Cuehand",
   "colors": {
-    "primary": "#F03603",
-    "light": "#FF5733",
-    "dark": "#C32A02"
+    "primary": "#EC9D5E",
+    "light": "#99FFE4"
+  },
+  "appearance": {
+    "strict": true
+  },
+  "background": {
+    "color": {
+      "dark": "#000000"
+    }
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -32,25 +39,22 @@
         ]
       },
       {
-        "group": "Resources",
+        "group": "More Information",
         "pages": [
-          "resources/cli"
+          "more-information/cli",
+          "more-information/about"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Changelog",
-          "href": "https://eightytwostudio.mintlify.app/changelog",
-          "icon": "scroll"
-        }
-      ]
+    ]
+  },
+  "styling": {
+    "codeblocks": {
+      "theme": "vesper"
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "(assets)/logo/light.svg",
+    "dark": "(assets)/logo/dark.svg"
   },
   "navbar": {
     "links": []
