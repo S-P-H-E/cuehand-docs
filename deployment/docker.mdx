@@ -9,20 +9,11 @@ This is useful for deploying Cuehand projects on platforms like **Railway**.
 
 <Steps>
   <Step title="Create a Dockerfile">
-    Create a Dockerfile in the root of your project.
     ```dockerfile Dockerfile expandable
-    FROM node:20-slim
+    # Use the official Playwright image
+    FROM mcr.microsoft.com/playwright:v1.56.1-jammy
 
-    # Install Chrome dependencies for Puppeteer
-    RUN apt-get update && apt-get install -y \
-        chromium \
-        chromium-sandbox \
-        && rm -rf /var/lib/apt/lists/*
-
-    # Set Puppeteer to use system Chromium
-    ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-
+    # Set working directory
     WORKDIR /app
 
     # Copy package files
