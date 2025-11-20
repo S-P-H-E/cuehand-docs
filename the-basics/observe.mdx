@@ -6,28 +6,25 @@ description: "Discover and plan executable actions on any web page"
 ## What is `observe()`?
 This function is used to look for elements on the page.
 ```typescript
-await cuehand.observe("find the login button")
+await cuehand.observe("find the search bar at the top")
 ```
 
 ```json response
-{ "found": true }
+{
+  "description": "Search models textbox",
+  "method": "fill",
+  "arguments": [ "" ],
+  "selector": "xpath=/html[1]/body[1]/header[1]/nav[1]/div[2]/div[1]/form[1]/div[1]/input[1]"
+}
 ```
 
-In this example, the login button is found. This means we are on the login page. 
-You can use `observe()` with `act()` like this:
-
+Once you find the element, you can use `act()` to interact with it.
 ```typescript
-const result = await cuehand.observe("find the login button");
+const [action] = await cuehand.observe(
+  "click the search bar at the top"
+);
 
-if (result.found) {
-  await cuehand.act("type %username% into the email field", {
-    variables: { username: "username" }
-  });
-
-  await cuehand.act("type %password% into the password field", {
-    variables: { password: process.env.USER_PASSWORD! }
-  });
-
-  await cuehand.act("click the login button");
+if (action) {
+  await cuehand.act(action);
 };
 ```

@@ -53,6 +53,11 @@ This is useful for deploying Cuehand projects on platforms like **Railway**.
         environment:
           - GOOGLE_GENERATIVE_AI_API_KEY
     ```
+    Optionally, if you want to store user data in a volume, you can add the following:
+    ```yml docker-compose.yml
+    volumes:
+      - ./userData:/app/userData
+    ```
   </Step>
   <Step title="Build and run the container">
     Build and run the container.

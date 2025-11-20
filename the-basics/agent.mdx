@@ -1,0 +1,41 @@
+---
+title: "Agent"
+description: "Build a complex task out of simple steps"
+tag: "NEW"
+---
+
+## What is `agent()`?
+```typescript
+await agent.execute("complete this quiz for me and submit it");
+```
+An agent is an intelligent combination of all the Cuehand primitives. 
+It is a way to build a complex task out of simple steps.
+
+### Computer Use Agents
+Currently the only supported agent is the Computer Use Agent.
+You can use specialized computer use models from either Google, OpenAI or Anthropic.
+
+```typescript
+const agent = cuehand.agent({
+    cua: true,
+    model: {
+        modelName: "google/gemini-2.5-computer-use-preview-10-2025",
+        apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY
+    },
+    systemPrompt: "You are a helpful assistant...",
+});
+
+await agent.execute({
+    instruction:`
+        Go to Ollama.com and find the cloud section which will show prices.
+        Click on the 'See docs' link next to the download button on the free option.
+    `,
+    maxSteps: 20,
+    highlightCursor: true
+})
+```
+
+<Warning>
+    This feature is still in it's early stages and is not yet fully supported.
+    But is ready for you to try out and give feedback.
+</Warning>

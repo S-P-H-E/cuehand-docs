@@ -28,44 +28,50 @@ You can use any other model supported by the [Vercel AI SDK](https://ai-sdk.dev/
     The scaffold includes an index.ts file that contains basic Cuehand code. Here's what it looks like:
     ```typescript index.ts expandable lines wrap
     import { Cuehand } from "cuehand";
+    import { z } from "zod";
 
     async function main() {
-        const cuehand = new Cuehand({
-            type: "LOCAL",
-            model: google("gemini-2.5-flash"),
-        });
+      const cuehand = new Cuehand({
+        type: "LOCAL",
+        model: "google/gemini-2.5-flash",
+      });
 
-        await cuehand.init();
+      await cuehand.init();
 
-        await cuehand.goto(
-           "https://www.testpapers.co.za/gr12-subjects"
-        );
+      await cuehand.goto("https://ollama.com/");
 
-        await cuehand.wait(3);
+      const [action] = await cuehand.observe(
+        "click the search bar at the top"
+      );
 
-        console.log("Extracting subjects...");
+      if (action) {
+        await cuehand.act(action);
+      };
 
-        const result = await cuehand.extract(`
-            Extract a list of Grade 12 subjects. 
-            Each subject should have a name and a link to its page. 
-            Subject Example: Business Studies.
-            `,z.object({
-                subjects: z.array(z.object({
-                    name: z.string(),
-                    link: z.string()
-                }))
-            });
-        );
+      await cuehand.act("type 'gemini' into the search bar");
 
-        console.log("Result:", result);
+      await cuehand.act("press enter");
 
-        await cuehand.close();
+      await cuehand.wait(2);
+
+      await cuehand.act("click the first result that shows up");
+
+      const model = await cuehand.extract("get the model details",
+        z.object({
+          model: z.string().describe("the exact model name"),
+          description: z.string().describe("the model description"),
+          download: z.number().describe("the number of downloads"),
+        })
+      );
+
+      console.log("Model: ", model);
+
+      await cuehand.wait(10);
+
+      await cuehand.close();
     }
 
-    main().catch((err) => {
-        console.error(err);
-        process.exit(1);
-    });
+    main();
     ```
   </Step>
   <Step title="Finally, run it">

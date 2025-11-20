@@ -29,7 +29,8 @@
         "pages": [
           "the-basics/act",
           "the-basics/extract",
-          "the-basics/observe"
+          "the-basics/observe",
+          "the-basics/agent"
         ]
       },
       {

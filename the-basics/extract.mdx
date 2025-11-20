@@ -5,5 +5,17 @@ description: "Extract structured data from a webpage"
 
 ## What is `extract()`?
 ```typescript
-await cuehand.extract("get the title of the page")
+await cuehand.extract("get the model details")
+```
+
+This will return a huge chunk of text that includes information about the model.
+But, we can use a schema to only extract the information we need:
+```typescript
+await cuehand.extract("get the model details",
+  z.object({
+    model: z.string().describe("the exact model name"),
+    description: z.string().describe("the model description"),
+    download: z.number().describe("the number of downloads"),
+  })
+);
 ```
